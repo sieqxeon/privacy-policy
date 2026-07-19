@@ -15,7 +15,8 @@
 <p style="text-indent:1.5em;">
 haguren is a group location-sharing app designed for touring and driving groups.
 Members can share their real-time location with a group, propose and vote on
-destinations, coordinate schedules, and get notified when a group member is nearby.
+destinations, coordinate schedules, chat with each other, and get notified when
+a group member is nearby.
 </p>
 
 <ul>
@@ -23,8 +24,10 @@ destinations, coordinate schedules, and get notified when a group member is near
     <ul>
         <li>Real-time location sharing within a group (on/off controlled by the user)</li>
         <li>Destination proposals with comments and likes</li>
-        <li>Route search (toll roads on/off comparison)</li>
+        <li>Route search (toll road / no-toll / no-highway comparison with alternative routes)</li>
         <li>Schedule coordination within a group</li>
+        <li>Group chat within a group (text messages)</li>
+        <li>Built-in turn-by-turn navigation with voice guidance (Premium)</li>
         <li>Proximity notifications (Premium)</li>
         <li>Support for up to 3 groups created and 10 groups joined per user</li>
     </ul>
@@ -63,6 +66,13 @@ sharing is turned on.
 a group), destination proposals, comments, votes, and schedule responses you submit.
 </li>
 <li>
+<b>Chat messages</b>: When you send messages in a group chat, the message content,
+sender name, and timestamp are stored in Cloud Firestore and visible to other
+members of the same group. Each group retains only the most recent 100 messages;
+older messages are automatically deleted. You can block another user to hide their
+messages from your own view.
+</li>
+<li>
 <b>Advertising identifiers</b>: This app uses Google AdMob to display ads. AdMob
 may collect device identifiers (such as IDFA on iOS, subject to your App Tracking
 Transparency choice, or the Android Advertising ID on Android) to provide and
@@ -80,18 +90,18 @@ unlock Premium features, but we do not receive your payment card details.
 <h3>How Information Is Used</h3>
 
 <p>
-Location and group data are used solely to provide the core functionality of the
-app: showing group members' locations, destinations, and schedules to other
-members of the same group. We do not sell your personal information.
+Location, group, and chat data are used solely to provide the core functionality
+of the app: showing group members' locations, destinations, schedules, and
+messages to other members of the same group, and providing turn-by-turn
+navigation. We do not sell your personal information.
 </p>
 
 <h3>Third-Party Services</h3>
 
 <ul>
-<li>Firebase (Authentication, Cloud Firestore) - Google LLC</li>
+<li>Firebase (Authentication, Cloud Firestore, Cloud Functions, Cloud Messaging) - Google LLC</li>
 <li>Google AdMob (advertising) - Google LLC</li>
-<li>Google Maps / Google Places API - Google LLC</li>
-<li>Mapbox Directions API (route search) - Mapbox Inc.</li>
+<li>Google Maps / Google Places API / Google Routes API - Google LLC</li>
 <li>RevenueCat (subscription management) - RevenueCat, Inc.</li>
 <li>Apple App Store / Google Play (subscription billing)</li>
 </ul>
@@ -107,8 +117,9 @@ used for providing and improving their services.
 <p>
 haguren Pro can be unlocked either through an auto-renewing monthly
 subscription or a non-renewing 24-hour Premium Day Pass. Both unlock the same
-Premium features (such as proximity notifications). Payment is charged to
-your Apple ID or Google Play account at confirmation of purchase.
+Premium features (such as proximity notifications and built-in navigation).
+Payment is charged to your Apple ID or Google Play account at confirmation of
+purchase.
 </p>
 
 <p>
@@ -136,7 +147,8 @@ Group membership records, proposals, and schedule data are retained until you
 leave the group, the group is disbanded by its leader, or you delete your account
 data by contacting us. Location data sent while sharing is active is used to
 display real-time positions to group members and is not retained for purposes
-beyond providing this feature.
+beyond providing this feature. Chat messages are retained up to the most recent
+100 per group; older messages are automatically and permanently deleted.
 </p>
 
 <h3>Children's Privacy</h3>
@@ -151,6 +163,10 @@ personal information from children under 13.
 <ul>
 <li>Location sharing can be turned on or off at any time within the app.</li>
 <li>You can leave a group at any time from the group list on the login screen.</li>
+<li>You can block another user within a group chat to hide their messages from
+your view, and unblock them at any time.</li>
+<li>You can report inappropriate content or user behavior to the developer from
+the app's Settings screen.</li>
 <li>You can request deletion of your account data by contacting us at the email
 address below.</li>
 </ul>
@@ -191,10 +207,13 @@ responses, sharing status, and proposals are deleted immediately (within
 seconds) from our database (Cloud Firestore) when you leave a group or delete
 your account. Comments or votes you made on other members' proposals may
 remain visible within a group's history if you leave without deleting that
-content first, since they are part of the shared group record. Your Firebase
-Authentication account (UID) and locally cached device settings are deleted
-immediately upon account deletion. We do not maintain separate backups of
-this data, so once deleted it is not recoverable.
+content first, since they are part of the shared group record. Chat messages
+you sent remain visible in a group's chat history (subject to the 100-message
+retention limit described above) unless you delete your entire account, at
+which point your sender name is disassociated from prior messages. Your
+Firebase Authentication account (UID) and locally cached device settings are
+deleted immediately upon account deletion. We do not maintain separate backups
+of this data, so once deleted it is not recoverable.
 </p>
 
 <h2>Support</h2>
